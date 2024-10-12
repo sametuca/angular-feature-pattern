@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { catchError, filter, map, Observable, throwError } from 'rxjs';
 import { User } from '../models/user.interface';
-import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  async getAllUsers(): Promise<User[]> {
-    try {
-      return await firstValueFrom(this.http.get<User[]>('https://jsonplaceholder.typicode.com/users'));
-    } catch (error) {
-      console.error('Failed to fetch users', error);
-      throw error; // Hatanın dışarıya fırlatılması
-    }
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>('https://jsonplaceholder.typicode.com/users')
+      .pipe(
+        catchError(error => {
+          console.error('Users fetching failed:', error);
+          return throwError(() => new Error('An error occurred while fetching users.'));
+        })
+      );
   }
 }
