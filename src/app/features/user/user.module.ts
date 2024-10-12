@@ -4,10 +4,10 @@ import { UserListComponent } from './components/user-list/user-list.component'; 
 
 @NgModule({
   declarations: [
-    UserListComponent // UserComponent'i burada tanımlayın
+    UserListComponent
   ],
   imports: [
-    CommonModule // Diğer Angular modüllerini buraya ekleyebilirsiniz
+    CommonModule
   ],
   exports: [
   ]
